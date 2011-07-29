@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+from mxr import optionparser, searchfetcher, searchparser
+
+def main():
+    try:
+        opts, args = optionparser.parse()
+        handler = searchfetcher.fetch(opts, *args)
+        for filename, lineno, match in searchparser.parse(opts, handler):
+            if opts.name_only:
+                print filename
+            else:
+                print "%s:%d:%s" % (filename, lineno, match)
+    except KeyboardInterrupt:
+        return
+
+if __name__ == "__main__":
+    main()
